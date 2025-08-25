@@ -8,8 +8,8 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Leaflet CSS (for the interactive service map) -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="styles.css">
@@ -41,7 +41,6 @@
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#services">All Services</a></li>
             <li><a class="dropdown-item" href="#packages">Packages</a></li>
-            <li><a class="dropdown-item" href="#service-area">Service Area</a></li>
           </ul>
         </li>
         <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
@@ -67,7 +66,7 @@
   <div class="container">
     <h2 class="text-center mb-4">Our Services</h2>
     <div class="accordion" id="servicesAccordion">
-
+      <!-- Pressure Washing -->
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingPressure">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePressure">
@@ -81,7 +80,7 @@
           </div>
         </div>
       </div>
-
+      <!-- Lawn Care -->
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingLawn">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLawn">
@@ -95,7 +94,7 @@
           </div>
         </div>
       </div>
-
+      <!-- Painting -->
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingPainting">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePainting">
@@ -109,7 +108,7 @@
           </div>
         </div>
       </div>
-
+      <!-- Gutter Cleaning -->
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingGutters">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGutters">
@@ -122,7 +121,6 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
@@ -132,7 +130,6 @@
   <div class="container">
     <h2 class="text-center mb-4">Packages</h2>
     <div class="accordion" id="packagesAccordion">
-
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingBasic">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBasic">
@@ -145,7 +142,6 @@
           </div>
         </div>
       </div>
-
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingFull">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFull">
@@ -158,7 +154,6 @@
           </div>
         </div>
       </div>
-
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingDeluxe">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDeluxe">
@@ -171,7 +166,6 @@
           </div>
         </div>
       </div>
-
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingCustom">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCustom">
@@ -184,20 +178,15 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- Service Area Map Section -->
-<section id="service-area" class="py-5">
+<!-- Map Section -->
+<section id="map-section" class="py-5">
   <div class="container">
-    <h2 class="text-center mb-4">Our Service Area</h2>
-    <p class="text-center">
-      We proudly serve <b>Bullitt County</b> & <b>Meade County</b> — including <b>Radcliff</b>, <b>West Point</b>, and <b>Elizabethtown</b>.
-      Click an area or pin to start a booking.
-    </p>
-    <div id="map" style="height: 500px; width:100%; border-radius:10px; overflow:hidden;"></div>
+    <h2 class="text-center mb-4">Service Areas</h2>
+    <div id="map" style="width: 100%; height: 500px;"></div>
   </div>
 </section>
 
@@ -217,6 +206,11 @@
       </div>
 
       <div class="mb-3">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" class="form-control">
+      </div>
+
+      <div class="mb-3">
         <label for="service">Choose a Service</label>
         <select id="service" class="form-control" required>
           <option value="Lawn Care">Lawn Care</option>
@@ -231,7 +225,7 @@
         <input type="text" id="booking-location" class="form-control" placeholder="Click a map area to fill automatically" required>
       </div>
 
-      <button type="submit" class="btn btn-primary">Submit Booking</button>
+      <button type="submit" class="btn btn-success">Submit Booking</button>
       <p id="successMsg" class="text-success mt-2"></p>
     </form>
   </div>
@@ -242,9 +236,7 @@
   <div class="container">
     <h2 class="text-center mb-4">About Titan Co</h2>
     <p class="text-center">
-      Titan Co Landscaping provides professional, reliable landscaping and home care services. We specialize in lawn care,
-      pressure washing, painting, and gutter cleaning. Our team delivers high-quality results and excellent customer service,
-      covering a wide area to ensure your property looks its best.
+      Titan Co Landscaping provides professional, reliable landscaping and home care services. We specialize in lawn care, pressure washing, painting, and gutter cleaning. Our team delivers high-quality results and excellent customer service, covering Bullitt County, Meade County, and surrounding areas including Radcliff, West Point, Elizabethtown, and Mt. Washington.
     </p>
   </div>
 </section>
@@ -262,78 +254,51 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-<!-- Map Script (shaded counties + city pins that fill the booking form) -->
+<!-- Map Script -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   // Init map
-  const map = L.map('map').setView([37.9, -85.95], 9);
+  const map = L.map('map').setView([37.93, -85.93], 9);
 
   // Base tiles
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
   }).addTo(map);
 
-  // Helper: on-click, fill booking location + scroll
-  function selectArea(areaName) {
+  // Booking selection function
+  window.selectArea = function(areaName) {
     const locInput = document.getElementById('booking-location');
-    if (locInput) {
-      locInput.value = areaName;
-    }
+    if (locInput) locInput.value = areaName;
     const booking = document.getElementById('booking');
     if (booking) booking.scrollIntoView({ behavior: 'smooth' });
-  }
+  };
 
-  // City markers
-  const cities = [
-    { name: "Radcliff", coords: [37.8409, -85.9497] },
-    { name: "West Point", coords: [38.0067, -85.9494] },
-    { name: "Elizabethtown", coords: [37.6939, -85.8594] }
+  // Pins for cities/counties
+  const pins = [
+    { name: "Bullitt County", coords: [37.986, -85.710] },
+    { name: "Meade County", coords: [38.003, -86.170] },
+    { name: "Mt. Washington (Bullitt Co.)", coords: [38.050, -85.545] },
+    { name: "Shepherdsville (Bullitt Co.)", coords: [37.988, -85.715] },
+    { name: "Brandenburg (Meade Co.)", coords: [38.003, -86.169] },
+    { name: "Radcliff", coords: [37.841, -85.950] },
+    { name: "West Point", coords: [38.007, -85.949] },
+    { name: "Elizabethtown", coords: [37.694, -85.859] }
   ];
 
-  cities.forEach(city => {
-    L.marker(city.coords).addTo(map)
-      .bindPopup(`<b>${city.name}</b><br><button class="btn btn-success btn-sm mt-2" onclick="(${selectArea.toString()})('${city.name}')">Book in this Area</button>`);
+  pins.forEach(p => {
+    L.marker(p.coords).addTo(map)
+      .bindPopup(
+        `<b>${p.name}</b><br>
+         <button class="btn btn-success btn-sm mt-2" onclick="selectArea('${p.name.replace(/'/g, "\\'")}')">Book in this Area</button>`
+      );
   });
 
-  // Shaded county polygons (Bullitt & Meade)
-  const geoJsonUrl = 'https://louisville-metro-opendata-lojic.hub.arcgis.com/api/download/v1/items/fae59ea136d942cd9a9abd139c4733f4/geojson?layers=11';
-
-  fetch(geoJsonUrl)
-    .then(res => res.json())
-    .then(data => {
-      const features = data.features.filter(f =>
-        f.properties.COUNTY_NAM === 'Bullitt County' || f.properties.COUNTY_NAM === 'Meade County'
-      );
-
-      const layer = L.geoJSON({ type: 'FeatureCollection', features }, {
-        style: feature => {
-          const isBullitt = feature.properties.COUNTY_NAM.includes('Bullitt');
-          return {
-            color: isBullitt ? '#1E90FF' : '#FF8C00',
-            weight: 2,
-            fillColor: isBullitt ? '#1E90FF' : '#FF8C00',
-            fillOpacity: 0.25
-          };
-        },
-        onEachFeature: (feature, lyr) => {
-          const county = feature.properties.COUNTY_NAM;
-          lyr.bindPopup(`<b>${county}</b><br><button class="btn btn-success btn-sm mt-2" onclick="(${selectArea.toString()})('${county}')">Book in this Area</button>`);
-          // Also allow clicking polygon (not just popup button)
-          lyr.on('click', () => selectArea(county));
-        }
-      }).addTo(map);
-
-      // Fit map to both counties
-      map.fitBounds(layer.getBounds(), { padding: [20, 20] });
-    })
-    .catch(err => {
-      console.warn('County GeoJSON failed to load', err);
-    });
+  // Optional: Add shaded county polygons (requires GeoJSON URL)
+  // Here we skip external fetching; could be added if desired
 });
 </script>
-
 </body>
 </html>
 
