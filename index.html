@@ -3,187 +3,337 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Titan Co | Landscaping & Exterior Services</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <title>Titan Co Landscaping</title>
 
-  <!-- Leaflet CSS -->
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Leaflet CSS (for the interactive service map) -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
-  <style>
-    body { font-family: 'Segoe UI', sans-serif; }
-    .hero { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1597262975002-c5c3b14bbd62'); background-size: cover; background-position: center; color: white; text-align: center; padding: 120px 20px; }
-    .hero h1 { font-size: 3rem; font-weight: bold; }
-    .service-card { border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.2s; }
-    .service-card:hover { transform: translateY(-5px); }
-    #map { height: 500px; width: 100%; border-radius: 10px; overflow: hidden; }
-  </style>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <!-- Firebase Config -->
+  <script src="firebase-config.js" defer></script>
+
+  <!-- Custom JS -->
+  <script src="script.js" defer></script>
 </head>
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-success sticky-top">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="#">Titan Co</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+    <a class="navbar-brand" href="#">Titan Co</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navmenu">
+    <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-        <li class="nav-item"><a class="nav-link" href="#pricing">Pricing</a></li>
-        <li class="nav-item"><a class="nav-link" href="#booking">Booking</a></li>
-        <li class="nav-item"><a class="nav-link" href="#service-area">Service Area</a></li>
+        <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Services</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#services">All Services</a></li>
+            <li><a class="dropdown-item" href="#packages">Packages</a></li>
+            <li><a class="dropdown-item" href="#service-area">Service Area</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#booking">Book Now</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
       </ul>
     </div>
   </div>
 </nav>
 
-<!-- Hero -->
-<section class="hero">
-  <h1>Titan Co Landscaping & Exterior Services</h1>
-  <p class="lead">Professional Lawn Care • Pressure Washing • Painting • Gutter Cleaning</p>
-  <a href="#booking" class="btn btn-success btn-lg mt-3">Book Now</a>
+<!-- Hero Section -->
+<section id="home" class="text-center text-white hero-section">
+  <div class="overlay"></div>
+  <div class="container hero-content">
+    <h1 class="display-4">Titan Co Landscaping</h1>
+    <p class="lead">Professional Landscaping, Lawn Care, Pressure Washing & More</p>
+    <a href="#booking" class="btn btn-success btn-lg">Book Now</a>
+  </div>
 </section>
 
-<!-- Services -->
+<!-- Services Section -->
 <section id="services" class="py-5">
   <div class="container">
     <h2 class="text-center mb-4">Our Services</h2>
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="card service-card p-3">
-          <h4>Lawn Care</h4>
-          <p>Grass cutting, trimming, edging, and seasonal maintenance to keep your yard looking sharp.</p>
+    <div class="accordion" id="servicesAccordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingPressure">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePressure">
+            Pressure Washing – $100+
+          </button>
+        </h2>
+        <div id="collapsePressure" class="accordion-collapse collapse" data-bs-parent="#servicesAccordion">
+          <div class="accordion-body">
+            We clean driveways, patios, sidewalks, decks, sheds, fences, and house exteriors.
+            <br><strong>Optional add-ons:</strong> Roof cleaning +$50, Garage floor +$30
+          </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card service-card p-3">
-          <h4>Pressure Washing</h4>
-          <p>Restore the look of your home, driveway, decks, fences, and sheds with our deep cleaning wash.</p>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingLawn">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLawn">
+            Lawn Care – $50+/visit
+          </button>
+        </h2>
+        <div id="collapseLawn" class="accordion-collapse collapse" data-bs-parent="#servicesAccordion">
+          <div class="accordion-body">
+            Includes mowing, edging, trimming, leaf/debris removal.
+            <br><strong>Optional add-ons:</strong> Hedge trimming +$20, Lawn aeration +$40
+          </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card service-card p-3">
-          <h4>Painting & Gutters</h4>
-          <p>Exterior painting and gutter cleaning services that improve curb appeal and protect your home.</p>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingPainting">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePainting">
+            Painting – $200+
+          </button>
+        </h2>
+        <div id="collapsePainting" class="accordion-collapse collapse" data-bs-parent="#servicesAccordion">
+          <div class="accordion-body">
+            Exterior/interior painting with surface prep included.
+            <br><strong>Optional:</strong> Deck or fence painting +$75
+          </div>
         </div>
       </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingGutters">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGutters">
+            Gutter Cleaning – $80+
+          </button>
+        </h2>
+        <div id="collapseGutters" class="accordion-collapse collapse" data-bs-parent="#servicesAccordion">
+          <div class="accordion-body">
+            Leaf/debris removal, downspout flushing, and minor damage check.
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- Pricing -->
-<section id="pricing" class="py-5 bg-light">
+<!-- Packages Section -->
+<section id="packages" class="py-5 bg-light">
   <div class="container">
-    <h2 class="text-center mb-4">Pricing & Packages</h2>
-    <div class="row g-4">
-      <div class="col-md-6">
-        <div class="card p-3 service-card">
-          <h4>Standard Pricing</h4>
-          <ul>
-            <li>Lawn Mowing – $40+</li>
-            <li>Driveway Pressure Wash – $100+</li>
-            <li>House Wash – $200+</li>
-            <li>Gutter Cleaning – $75+</li>
-          </ul>
+    <h2 class="text-center mb-4">Packages</h2>
+    <div class="accordion" id="packagesAccordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingBasic">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBasic">
+            Basic Lawn Package – $75/month
+          </button>
+        </h2>
+        <div id="collapseBasic" class="accordion-collapse collapse" data-bs-parent="#packagesAccordion">
+          <div class="accordion-body">
+            Weekly mowing, trimming, cleanup, seasonal fertilization, leaf removal in fall.
+          </div>
         </div>
       </div>
-      <div class="col-md-6">
-        <div class="card p-3 service-card">
-          <h4>Service Packages</h4>
-          <ul>
-            <li><b>Basic Package – $120</b>: Lawn Mow + Gutter Clean</li>
-            <li><b>Premium Package – $250</b>: Lawn Mow + Driveway Wash + Gutter Clean</li>
-            <li><b>Ultimate Package – $450</b>: Full Lawn Care + House Wash + Gutters</li>
-          </ul>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingFull">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFull">
+            Full Home Care Package – $250/month
+          </button>
+        </h2>
+        <div id="collapseFull" class="accordion-collapse collapse" data-bs-parent="#packagesAccordion">
+          <div class="accordion-body">
+            Weekly lawn mowing, monthly pressure washing, quarterly gutter cleaning, painting maintenance checks.
+          </div>
         </div>
       </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingDeluxe">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDeluxe">
+            Deluxe Package – $350/month
+          </button>
+        </h2>
+        <div id="collapseDeluxe" class="accordion-collapse collapse" data-bs-parent="#packagesAccordion">
+          <div class="accordion-body">
+            Everything in Full Home Care plus yearly painting, additional pressure washing, hedge/shrub maintenance.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingCustom">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCustom">
+            Custom Package
+          </button>
+        </h2>
+        <div id="collapseCustom" class="accordion-collapse collapse" data-bs-parent="#packagesAccordion">
+          <div class="accordion-body">
+            Choose any combination of services. Pricing depends on selected services. Flexible scheduling.
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- Booking -->
-<section id="booking" class="py-5">
+<!-- Service Area Map Section -->
+<section id="service-area" class="py-5">
   <div class="container">
-    <h2 class="text-center mb-4">Book a Service</h2>
-    <form class="card p-4 shadow">
+    <h2 class="text-center mb-4">Our Service Area</h2>
+    <p class="text-center">
+      We proudly serve <b>Bullitt County</b> & <b>Meade County</b> — including <b>Radcliff</b>, <b>West Point</b>, and <b>Elizabethtown</b>.
+      Click an area or pin to start a booking.
+    </p>
+    <div id="map" style="height: 500px; width:100%; border-radius:10px; overflow:hidden;"></div>
+  </div>
+</section>
+
+<!-- Booking Section -->
+<section id="booking" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-4">Book Our Services</h2>
+    <form id="bookingForm">
       <div class="mb-3">
-        <label class="form-label">Full Name</label>
-        <input type="text" class="form-control" placeholder="John Doe" required>
+        <label for="name">Full Name</label>
+        <input type="text" id="name" class="form-control" required>
       </div>
+
       <div class="mb-3">
-        <label class="form-label">Service</label>
-        <select class="form-select" required>
-          <option>Lawn Care</option>
-          <option>Pressure Washing</option>
-          <option>Painting</option>
-          <option>Gutter Cleaning</option>
-          <option>Package Deal</option>
+        <label for="email">Email</label>
+        <input type="email" id="email" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="service">Choose a Service</label>
+        <select id="service" class="form-control" required>
+          <option value="Lawn Care">Lawn Care</option>
+          <option value="Pressure Washing">Pressure Washing</option>
+          <option value="Gutter Cleaning">Gutter Cleaning</option>
+          <option value="Painting">Painting</option>
         </select>
       </div>
+
       <div class="mb-3">
-        <label class="form-label">Date</label>
-        <input type="date" class="form-control" required>
+        <label for="booking-location">Location</label>
+        <input type="text" id="booking-location" class="form-control" placeholder="Click a map area to fill automatically" required>
       </div>
-      <button type="submit" class="btn btn-success">Submit Booking</button>
+
+      <button type="submit" class="btn btn-primary">Submit Booking</button>
+      <p id="successMsg" class="text-success mt-2"></p>
     </form>
   </div>
 </section>
 
-<!-- Service Area Map -->
-<section id="service-area" class="py-5 bg-light">
+<!-- About Section -->
+<section id="about" class="py-5 bg-light">
   <div class="container">
-    <h2 class="text-center mb-4">Our Service Area</h2>
-    <p class="text-center">We proudly serve <b>Bullitt County</b> (including Radcliff, West Point, Elizabethtown) and <b>Meade County</b>.</p>
-    <div id="map"></div>
+    <h2 class="text-center mb-4">About Titan Co</h2>
+    <p class="text-center">
+      Titan Co Landscaping provides professional, reliable landscaping and home care services. We specialize in lawn care,
+      pressure washing, painting, and gutter cleaning. Our team delivers high-quality results and excellent customer service,
+      covering a wide area to ensure your property looks its best.
+    </p>
   </div>
 </section>
 
-<!-- Footer -->
-<footer class="bg-dark text-white text-center py-3">
-  <p>&copy; 2025 Titan Co. All rights reserved.</p>
-</footer>
+<!-- Contact Section -->
+<section id="contact" class="py-5">
+  <div class="container text-center">
+    <h2 class="mb-4">Contact Us</h2>
+    <p>Phone: (502) 428-7961</p>
+    <p>Email: titandetailing2122@gmail.com</p>
+  </div>
+</section>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- Map Script (shaded counties + city pins that fill the booking form) -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const map = L.map('map');
+  // Init map
+  const map = L.map('map').setView([37.9, -85.95], 9);
 
+  // Base tiles
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
   }).addTo(map);
 
+  // Helper: on-click, fill booking location + scroll
+  function selectArea(areaName) {
+    const locInput = document.getElementById('booking-location');
+    if (locInput) {
+      locInput.value = areaName;
+    }
+    const booking = document.getElementById('booking');
+    if (booking) booking.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // City markers
+  const cities = [
+    { name: "Radcliff", coords: [37.8409, -85.9497] },
+    { name: "West Point", coords: [38.0067, -85.9494] },
+    { name: "Elizabethtown", coords: [37.6939, -85.8594] }
+  ];
+
+  cities.forEach(city => {
+    L.marker(city.coords).addTo(map)
+      .bindPopup(`<b>${city.name}</b><br><button class="btn btn-success btn-sm mt-2" onclick="(${selectArea.toString()})('${city.name}')">Book in this Area</button>`);
+  });
+
+  // Shaded county polygons (Bullitt & Meade)
   const geoJsonUrl = 'https://louisville-metro-opendata-lojic.hub.arcgis.com/api/download/v1/items/fae59ea136d942cd9a9abd139c4733f4/geojson?layers=11';
 
   fetch(geoJsonUrl)
-    .then(response => response.json())
+    .then(res => res.json())
     .then(data => {
       const features = data.features.filter(f =>
         f.properties.COUNTY_NAM === 'Bullitt County' || f.properties.COUNTY_NAM === 'Meade County'
       );
 
-      const countiesLayer = L.geoJSON({ type: 'FeatureCollection', features }, {
-        style: feature => ({
-          color: feature.properties.COUNTY_NAM.includes('Bullitt') ? '#1E90FF' : '#FF8C00',
-          weight: 2,
-          fillColor: feature.properties.COUNTY_NAM.includes('Bullitt') ? '#1E90FF' : '#FF8C00',
-          fillOpacity: 0.3
-        }),
-        onEachFeature: (feature, layer) => {
-          layer.bindPopup(`<b>${feature.properties.COUNTY_NAM}</b><br><a href="#booking" class="btn btn-success btn-sm">Book Now</a>`);
+      const layer = L.geoJSON({ type: 'FeatureCollection', features }, {
+        style: feature => {
+          const isBullitt = feature.properties.COUNTY_NAM.includes('Bullitt');
+          return {
+            color: isBullitt ? '#1E90FF' : '#FF8C00',
+            weight: 2,
+            fillColor: isBullitt ? '#1E90FF' : '#FF8C00',
+            fillOpacity: 0.25
+          };
+        },
+        onEachFeature: (feature, lyr) => {
+          const county = feature.properties.COUNTY_NAM;
+          lyr.bindPopup(`<b>${county}</b><br><button class="btn btn-success btn-sm mt-2" onclick="(${selectArea.toString()})('${county}')">Book in this Area</button>`);
+          // Also allow clicking polygon (not just popup button)
+          lyr.on('click', () => selectArea(county));
         }
       }).addTo(map);
 
-      map.fitBounds(countiesLayer.getBounds());
+      // Fit map to both counties
+      map.fitBounds(layer.getBounds(), { padding: [20, 20] });
+    })
+    .catch(err => {
+      console.warn('County GeoJSON failed to load', err);
     });
 });
 </script>
 
 </body>
 </html>
-
 
